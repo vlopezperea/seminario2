@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.9.3-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.19  Distrib 10.9.4-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: mydb
+-- Host: localhost    Database: huertapp
 -- ------------------------------------------------------
--- Server version	10.9.3-MariaDB
+-- Server version	10.9.4-MariaDB-1:10.9.4+maria~ubu2204
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,7 +27,7 @@ CREATE TABLE `Intercambio` (
   `is_concretado` tinyint(4) DEFAULT NULL,
   `fecha_intercambio` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,7 @@ CREATE TABLE `Intercambio_has_Usuario` (
   KEY `fk_Intercambio_has_Usuario_Intercambio1_idx` (`Intercambio_id`),
   CONSTRAINT `fk_Intercambio_has_Usuario_Intercambio1` FOREIGN KEY (`Intercambio_id`) REFERENCES `Intercambio` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Intercambio_has_Usuario_Usuario1` FOREIGN KEY (`Usuario_id_usuario`) REFERENCES `Usuario` (`id_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE `Mensaje` (
   KEY `fk_Mensaje_Publicaciones1_idx` (`Publicaciones_id_publicacion`),
   CONSTRAINT `fk_Mensaje_Intercambio1` FOREIGN KEY (`Intercambio_id`) REFERENCES `Intercambio` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Mensaje_Publicaciones1` FOREIGN KEY (`Publicaciones_id_publicacion`) REFERENCES `Publicacion` (`id_publicacion`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,10 +82,11 @@ CREATE TABLE `Publicacion` (
   `descripcion` longtext NOT NULL,
   `fecha_creacion` date DEFAULT NULL,
   `id_usuario` int(11) DEFAULT NULL COMMENT 'id del usuario que creo la publicacion',
+  `foto` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_publicacion`),
   KEY `Publicacion_FK` (`id_usuario`),
   CONSTRAINT `Publicacion_FK` FOREIGN KEY (`id_usuario`) REFERENCES `Usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,8 +103,9 @@ CREATE TABLE `Usuario` (
   `password` varchar(255) NOT NULL,
   `fecha_inscripcion` date DEFAULT NULL,
   `activo` tinyint(4) DEFAULT NULL,
+  `celular` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,12 +123,8 @@ CREATE TABLE `Usuario_has_Publicacion` (
   KEY `fk_Usuario_has_Publicacion_Usuario1_idx` (`Usuario_id_usuario`),
   CONSTRAINT `fk_Usuario_has_Publicacion_Publicacion1` FOREIGN KEY (`Publicacion_id_publicacion`) REFERENCES `Publicacion` (`id_publicacion`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Usuario_has_Publicacion_Usuario1` FOREIGN KEY (`Usuario_id_usuario`) REFERENCES `Usuario` (`id_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping routines for database 'mydb'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -137,4 +135,4 @@ CREATE TABLE `Usuario_has_Publicacion` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-04 19:13:01
+-- Dump completed on 2022-11-28 20:36:49

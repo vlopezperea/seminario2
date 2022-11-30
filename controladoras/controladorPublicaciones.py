@@ -73,7 +73,7 @@ def mis_publicaciones():
 @app.route('/publicacion/<int:id>/', methods=['GET'])
 def get_publicacion(id):
     publicacion = consultasPublicacion.get_publicacion_by_id(id)
-    datos_usuario = controladorUsuario.get_usuario_by_username(publicacion[7])
+    datos_usuario = consultasPublicacion.get_usuario_by_email(publicacion[8])
     if publicacion == False:
         flash("No existe la publicacion")
         return redirect(url_for("mis_publicaciones"))
@@ -98,7 +98,7 @@ def edit_publicacion(id):
         form.foto.data = publicacion[5]
     else:
         # NO es necesario darle toda la informacion al "usuario".
-        return redirect(url_for("index"))
+        return redirect(url_for("index",numero_pagina=1))
     return render_template('edit-publicacion.html', form=form, title=title, publicacion=publicacion, username=username)
 
 # Realiza el update a la publicacion seleccionada -------------------------------------------------------
@@ -166,7 +166,7 @@ def delete_publicacion(id):
 
     if publicacion == False:
         flash("No se pudo borrar la publicacion")
-        return redirect(url_for("index"))
+        return redirect(url_for("index",numero_pagina=1))
     else:
         flash("Publicación borrada exitosamente")
         return redirect(url_for("mis_publicaciones"))
